@@ -1,4 +1,4 @@
-#Intel 8080 Binary Disassembler
+# Intel 8080 Binary Disassembler
 
 An Intel 8080 disassembler written in C. This is currently a work in progress.
 
