@@ -1,0 +1,5 @@
+*.o
+i8080d
+.git
+bin/
+.buildconfig
