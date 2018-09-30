@@ -7,7 +7,7 @@ TARGET=i8080d
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 makei8080d: src/$(TARGET).o
-	$(CC) -o ./bin/$(TARGET) ./src/$(TARGET).c
+	$(CC) -g -o ./bin/$(TARGET) ./src/$(TARGET).c
 
 clean:
 	rm ./bin/i8080d
