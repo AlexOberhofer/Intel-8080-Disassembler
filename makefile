@@ -1,4 +1,4 @@
-CC=gcc
+CC=clang
 CFLAGS=-I.
 DEPS=i8080d.h
 TARGET=i8080d
@@ -7,7 +7,8 @@ TARGET=i8080d
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 makei8080d: src/$(TARGET).o
-	$(CC) -g -o ./bin/$(TARGET) ./src/$(TARGET).c
+	@mkdir -p bin
+	$(CC) -g -std=c11 -Wall -o ./bin/$(TARGET) ./src/$(TARGET).c
 
 clean:
 	rm ./bin/i8080d
