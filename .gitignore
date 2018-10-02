@@ -3,3 +3,4 @@ i8080d
 .git
 bin/
 .buildconfig
+.atom-dbg.cson
