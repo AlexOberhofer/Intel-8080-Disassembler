@@ -1,6 +1,28 @@
+/*******************************************************************************
+Intel 8080 Disassembler
+Copyright (C) 2018  Alex Oberhofer
 
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*******************************************************************************/
 #include "i8080d.h"
 
+
+/**
+* Disassembles an Intel 8080 opcode
+* buffer - Pointer to code buffer
+* pc - Program counter
+**/
 int disassemble(unsigned char *buffer, int pc){
 
     int op_size = 1;
@@ -220,31 +242,31 @@ int disassemble(unsigned char *buffer, int pc){
         case 0xd1: printf("POP		D"); break;
         case 0xd2: printf("JNC		ADR, $%02x%02x", opcode[2], opcode[1]); op_size = 3; break;
         case 0xd3: printf("OUT		#%02x", opcode[1]); op_size = 2; break;
-        case 0xd4: printf("CNC		        ADR, $%02x%02x", opcode[2], opcode[1]); op_size = 3; break;
-        case 0xd5: printf("PUSH             D"); break;
-        case 0xd6: printf("SUI              A, #%02x", opcode[1]); op_size = 2; break;
-        case 0xd7: printf("RST              2"); break;
+        case 0xd4: printf("CNC		ADR, $%02x%02x", opcode[2], opcode[1]); op_size = 3; break;
+        case 0xd5: printf("PUSH            D"); break;
+        case 0xd6: printf("SUI             A, #%02x", opcode[1]); op_size = 2; break;
+        case 0xd7: printf("RST             2"); break;
         case 0xd8: printf("RC"); break;
-        case 0xda: printf("JC               ADR, $%02x%02x", opcode[2], opcode[1]); op_size = 3; break;
-        case 0xdb: printf("IN               #%02x", opcode[1]); op_size = 2; break;
-        case 0xdc: printf("CC               ADR, $%02x%02x", opcode[2], opcode[1]); op_size = 3; break;
-        case 0xde: printf("SBI              A, #%02x", opcode[1]); op_size = 2; break;
-        case 0xdf: printf("RST              3"); break;
+        case 0xda: printf("JC              ADR, $%02x%02x", opcode[2], opcode[1]); op_size = 3; break;
+        case 0xdb: printf("IN              #%02x", opcode[1]); op_size = 2; break;
+        case 0xdc: printf("CC              ADR, $%02x%02x", opcode[2], opcode[1]); op_size = 3; break;
+        case 0xde: printf("SBI             A, #%02x", opcode[1]); op_size = 2; break;
+        case 0xdf: printf("RST             3"); break;
         case 0xe0: printf("RPO"); break;
-        case 0xe1: printf("POP              H"); break;
-        case 0xe2: printf("JPO              ADR, $%02x%02x", opcode[2], opcode[1]); op_size = 3; break;
+        case 0xe1: printf("POP             H"); break;
+        case 0xe2: printf("JPO             ADR, $%02x%02x", opcode[2], opcode[1]); op_size = 3; break;
         case 0xe3: printf("XTHL"); break;
-        case 0xe4: printf("CPO              ADR, $%02x%02x", opcode[2], opcode[1]); break;
-        case 0xe5: printf("PUSH             H"); break;
-        case 0xe6: printf("ANI              A, #%02x", opcode[1]); op_size = 2; break;
-        case 0xe7: printf("RST              4"); break;
+        case 0xe4: printf("CPO             ADR, $%02x%02x", opcode[2], opcode[1]); break;
+        case 0xe5: printf("PUSH            H"); break;
+        case 0xe6: printf("ANI             A, #%02x", opcode[1]); op_size = 2; break;
+        case 0xe7: printf("RST             4"); break;
         case 0xe8: printf("RPE"); break;
         case 0xe9: printf("PCHL"); break;
-        case 0xea: printf("JPE              ADR, $%02x%02x", opcode[2], opcode[1]); op_size = 3; break;
+        case 0xea: printf("JPE             ADR, $%02x%02x", opcode[2], opcode[1]); op_size = 3; break;
         case 0xeb: printf("XCHG"); break;
-        case 0xec: printf("CPR              ADR, $%02x%02x", opcode[2], opcode[1]); op_size = 3; break;
-        case 0xee: printf("XRI              A, #%02x", opcode[1]); op_size = 3; break;
-        case 0xef: printf("RST              5"); break;
+        case 0xec: printf("CPR             ADR, $%02x%02x", opcode[2], opcode[1]); op_size = 3; break;
+        case 0xee: printf("XRI             A, #%02x", opcode[1]); op_size = 3; break;
+        case 0xef: printf("RST             5"); break;
         case 0xf0: printf("RP"); break;
         case 0xf1: printf("POP             PSW"); break;
         case 0xf2: printf("JP              ADR, $%02x%02x", opcode[2], opcode[1]); op_size = 3; break;
@@ -269,9 +291,6 @@ int disassemble(unsigned char *buffer, int pc){
 
 int main(int argc, char* argv[]){
 
-	  printf("FORMAT:  PC  OP  Disassembly\n");
-	  sleep(2);
-
     FILE *f = fopen(argv[1], "rb");
     if(f == NULL){
         printf("Error Could not open %s\n", argv[1]);
@@ -285,6 +304,9 @@ int main(int argc, char* argv[]){
     unsigned char *buffer = malloc(fsize);
     fread (buffer, fsize, 1, f);
     fclose (f);
+
+    printf("FORMAT:  PC  OP  Disassembly\n");
+    sleep(1);
 
     while(pc < fsize){
         pc += disassemble(buffer, pc);
